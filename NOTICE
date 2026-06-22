@@ -1,0 +1,15 @@
+SecureVector Terraform module for Oracle Cloud Infrastructure
+Copyright (c) SecureVector
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This module provisions the SecureVector engine (the local SecureVector app /
+threat monitor, distributed as the container image published from
+securevector-ai-threat-monitor) into the user's own OCI compartment. Data
+scanned by the engine stays in the user's tenancy (bring-your-own-cloud).
+
+"Terraform" is a trademark of HashiCorp, Inc. "Oracle Cloud Infrastructure",
+"OCI", "Container Instances", and related marks are trademarks of Oracle
+Corporation. This is an independent, community module and is not affiliated
+with, sponsored by, or endorsed by HashiCorp or Oracle. Those names are used
+only descriptively to identify compatibility (nominative fair use).
