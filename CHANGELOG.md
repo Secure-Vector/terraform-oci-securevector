@@ -7,6 +7,11 @@ release per `vX.Y.Z` git tag.
 ## [Unreleased]
 
 ### Added
+- **EU-region example** (`examples/eu-region/`) for data-residency deployments —
+  pins the provider region to `eu-frankfurt-1` (`eu-amsterdam-1` / `eu-zurich-1`
+  also work) and documents that compartment-scoped resources stay in the chosen
+  region (with the existing ephemeral-storage / no-managed-TLS caveat called
+  out). No root-module change — region is provider-driven.
 - Initial OCI module: deploys the SecureVector engine to the user's own OCI
   compartment on a **serverless Container Instance** with a public IP, and a
   clean `terraform destroy`. Creates a minimal public VCN (VCN + internet
