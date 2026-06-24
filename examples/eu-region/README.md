@@ -13,7 +13,9 @@ Change the provider `region` in `main.tf` to another EU region (e.g. `eu-amsterd
 
 ## Data residency
 
-Resources this module creates are compartment-scoped and placed in the provider's region (set above) — the Container Instance, its public VCN, and networking. The engine processes and stores agent activity, threats, tool-audit, and governance data **only in your own OCI tenancy/compartment and region**. SecureVector does not receive that data, and this module does not replicate it to any other region.
+Resources this module creates are compartment-scoped and placed in the provider's region (set above) — the Container Instance, its public VCN, and networking. The engine processes and stores agent activity, threats, tool-audit, and governance data **only in your own OCI tenancy/compartment and region**. This module does not replicate it to another region.
+
+> **Important — cloud ML analysis.** If you turn on **Cloud Mode** (cloud ML threat analysis), the engine sends the **prompt text** to SecureVector's cloud scan service (`scan.securevector.io`, processed in the **US**). That content is **not stored or logged** by the cloud (metadata-only retention), but it **is transmitted to and processed in the US** — so it leaves your region. A setting to keep all prompt analysis local ("EU data residency" mode) is planned for v4.8.0; until it ships, **leave Cloud Mode off for strict EU data residency** (local detection — bundled rules + the on-device model — still runs).
 
 **Persistence caveat:** OCI Container Instances use ephemeral storage and have no managed TLS (see the module README "honest divergences"). The residency guarantee is about *region placement*; production durability still requires addressing the persistence caveat.
 
