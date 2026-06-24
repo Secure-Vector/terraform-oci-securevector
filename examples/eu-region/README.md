@@ -20,3 +20,24 @@ Resources this module creates are compartment-scoped and placed in the provider'
 **Persistence caveat:** OCI Container Instances use ephemeral storage and have no managed TLS (see the module README "honest divergences"). The residency guarantee is about *region placement*; production durability still requires addressing the persistence caveat.
 
 If you later enable Cloud Connect to view your governance posture in the SecureVector cloud, only metadata + hashes (never raw text) are forwarded, and only after you explicitly accept the governance terms. Keeping the deployment in an EU region keeps the resident copy of your data in the EU.
+
+## Connect your agents to this deployment
+
+`terraform output` prints the endpoint URL. Point your agents at it **from the machine where they run** — no local app required. (Default, with no endpoint set, uses a local app.)
+
+**SDK** (LangChain / LangGraph / CrewAI) — lightweight install, adapter only:
+
+```bash
+pip install securevector-sdk-langchain --no-deps     # or -langgraph / -crewai
+export SECUREVECTOR_SDK_APP_URL=https://<endpoint>    # from `terraform output`
+export SECUREVECTOR_API_KEY=<your key>
+```
+
+**Plugin** (Claude Code / Codex / GitHub Copilot CLI / OpenClaw) — install where the agent runs, then point the hooks at the endpoint:
+
+```bash
+securevector-app --install-plugin claude-code        # installs the hooks (no app server needs to run)
+export SV_BASE_URL=https://<endpoint>                 # the hooks forward here at runtime
+```
+
+A single unified `SECUREVECTOR_ENDPOINT` variable and a one-step plugin `--endpoint` flag are planned — see [story #190](https://github.com/Secure-Vector/llm-security-engine/issues/190).
