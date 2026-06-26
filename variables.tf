@@ -147,7 +147,7 @@ variable "ingress_cidrs" {
 }
 
 variable "ingress_token" {
-  description = "App-layer inbound credential -> SECUREVECTOR_INGRESS_TOKEN. When set, the engine requires it on every request (Authorization: Bearer <token> or X-Api-Key: <token>); /health stays open. Header-capable clients (OpenClaw, curl) can pass it today; SDK/JS-hook client-side forwarding is rolling out (#182). Empty = no app-layer gate."
+  description = "App-layer inbound credential -> SECUREVECTOR_INGRESS_TOKEN. Enforced from engine v4.9.0+: when set, a v4.9.0+ engine requires it on every request (Authorization: Bearer <token> or X-Api-Key: <token>); /health stays open. Header-capable clients (OpenClaw, curl) can pass it today; SDK/JS-hook client-side forwarding is rolling out (#182). On engines older than v4.9.0 the env var is set but NOT enforced — rely on network gating until you pin a v4.9.0+ image. Empty = no app-layer gate."
   type        = string
   default     = ""
   sensitive   = true
