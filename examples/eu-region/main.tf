@@ -8,8 +8,9 @@
 # to another region.
 #
 # Data residency: the engine processes and stores agent/governance data only in
-# the OCI tenancy/compartment and region you deploy into. SecureVector never
-# receives it. See the module README for the residency posture.
+# the OCI tenancy/compartment and region you deploy into. SecureVector does not store it. (NOTE: with Cloud Mode on, the engine sends
+# prompt text to scan.securevector.io (US) for ML analysis — not stored, but it
+# leaves the region; leave Cloud Mode off for strict EU residency. See README.) See the module README for the residency posture.
 #
 # Default region here is eu-frankfurt-1; eu-amsterdam-1 / eu-zurich-1 also work
 # — just change the provider `region` below.
@@ -61,6 +62,12 @@ module "securevector" {
   securevector_runtime = "langchain"
 
   securevector_api_key = var.securevector_api_key
+
+  # EU data residency: keep ALL prompt analysis local even with Cloud Mode on.
+  # The v4.8+ engine honors SV_DATA_RESIDENCY=eu (locks local-only analysis on;
+  # the toggle is enforced/locked and cloud /analyze is forced local). Harmless
+  # no-op on older engine images.
+  extra_env = { SV_DATA_RESIDENCY = "eu" }
 }
 
 output "dashboard_url" {
